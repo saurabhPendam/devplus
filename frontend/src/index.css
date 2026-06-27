@@ -1,0 +1,153 @@
+/* ==============================================
+   DevPulse — Global Design Tokens & Base Styles
+   ==============================================
+   These CSS custom properties (variables) define
+   the entire visual system. Change one value here
+   and it updates everywhere in the app.
+*/
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Palette — warm dark, not pure black */
+  --bg:           #13111a;   /* page background: dark purple-black */
+  --bg-card:      #1c1927;   /* card surfaces, slightly lighter    */
+  --bg-elevated:  #241f33;   /* hover states, tooltips             */
+  --border:       #2e2a3e;   /* subtle divider lines               */
+  --border-focus: #7c6af7;   /* when an input is focused           */
+
+  /* Text */
+  --text:         #ede9f8;   /* primary — warm white, not harsh    */
+  --text-muted:   #7e7a96;   /* secondary labels, hints            */
+  --text-dim:     #4a4660;   /* very subtle, disabled states       */
+
+  /* Brand accent — electric violet */
+  --accent:       #7c6af7;
+  --accent-light: #a595fa;
+  --accent-dim:   #2a2150;   /* accent background tints            */
+  --accent-glow:  rgba(124, 106, 247, 0.18);
+
+  /* Semantic colours */
+  --green:        #4cc98a;
+  --green-dim:    #0f2e1f;
+  --orange:       #f5a623;
+  --orange-dim:   #2e1f05;
+  --red:          #f06570;
+  --red-dim:      #2e0f12;
+
+  /* Typography */
+  --font-sans:  'Inter', -apple-system, sans-serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+
+  /* Radii */
+  --radius:    10px;
+  --radius-sm: 6px;
+  --radius-lg: 16px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+  --shadow-accent: 0 0 24px rgba(124, 106, 247, 0.25);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  /* Subtle dot-grid texture — makes it feel hand-crafted */
+  background-image: radial-gradient(
+    circle,
+    rgba(124, 106, 247, 0.06) 1px,
+    transparent 1px
+  );
+  background-size: 28px 28px;
+}
+
+/* ── Reset elements ── */
+a { color: var(--accent-light); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; }
+input, textarea { font-family: inherit; }
+img { display: block; max-width: 100%; }
+
+/* ── Layout helpers ── */
+.container {
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 var(--space-5);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  font-family: var(--font-mono);
+}
+.badge-violet { background: var(--accent-dim); color: var(--accent-light); }
+.badge-green  { background: var(--green-dim);  color: var(--green); }
+.badge-orange { background: var(--orange-dim); color: var(--orange); }
+.badge-red    { background: var(--red-dim);    color: var(--red); }
+
+/* ── Skeleton loading animation ── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-card) 25%,
+    var(--bg-elevated) 50%,
+    var(--bg-card) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Fade-in entry animation ── */
+.fade-in {
+  animation: fadeUp 0.35s ease forwards;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .container { padding: 0 var(--space-4); }
+}
