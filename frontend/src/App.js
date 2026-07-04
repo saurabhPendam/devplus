@@ -1,32 +1,47 @@
-import React, { useState } from 'react';
+/*
+  App.js — Day 6 update.
+
+  New: reads ?u=username from the URL on page load.
+  This makes shared links work — if someone visits
+  devpulse.app/?u=torvalds, the profile loads automatically.
+
+  When the user navigates back, we clear the URL parameter
+  so the search page shows cleanly.
+*/
+
+import React, { useState, useEffect } from 'react';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
 
-/*
-  App.js — the root of the component tree.
-
-  We use a simple "username" piece of state to
-  decide which page to show. No router needed yet —
-  Day 3 adds react-router-dom when there are more pages.
-
-  Data flow:
-    App  →  SearchPage  (user types a username)
-         ←  calls onSearch(username)
-    App  →  ProfilePage (renders results)
-         ←  calls onBack() to return to search
-*/
 function App() {
-  const [activeUsername, setActiveUsername] = useState(null);
+  const [username, setUsername] = useState(null);
+
+  // On first load, check for ?u= param in the URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const u = params.get('u');
+    if (u && /^[a-zA-Z0-9-]{1,39}$/.test(u)) {
+      setUsername(u.toLowerCase());
+    }
+  }, []);
+
+  const handleSearch = (u) => {
+    setUsername(u);
+    // Update URL without page reload so the back button works
+    window.history.pushState({}, '', `?u=${u}`);
+  };
+
+  const handleBack = () => {
+    setUsername(null);
+    window.history.pushState({}, '', '/');
+  };
 
   return (
     <div>
-      {activeUsername ? (
-        <ProfilePage
-          username={activeUsername}
-          onBack={() => setActiveUsername(null)}
-        />
+      {username ? (
+        <ProfilePage username={username} onBack={handleBack} />
       ) : (
-        <SearchPage onSearch={setActiveUsername} />
+        <SearchPage onSearch={handleSearch} />
       )}
     </div>
   );

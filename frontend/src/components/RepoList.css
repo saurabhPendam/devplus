@@ -1,0 +1,29 @@
+.repolist { display: flex; flex-direction: column; gap: var(--space-4); }
+.repolist-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-3); }
+.repolist-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: var(--font-mono); }
+
+.repolist-tabs { display: flex; gap: 2px; background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 3px; }
+.repo-tab { font-size: 12px; font-weight: 500; color: var(--text-muted); padding: 4px 11px; border-radius: 4px; transition: background 0.15s, color 0.15s; }
+.repo-tab:hover { color: var(--text); }
+.repo-tab--active { background: var(--bg-card); color: var(--text); box-shadow: var(--shadow-xs); border: 1px solid var(--border); }
+
+.repolist-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: var(--space-3); }
+
+.repo-card {
+  display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4);
+  text-decoration: none;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+}
+.repo-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-1px); text-decoration: none; }
+
+.repo-top { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; }
+.repo-name { font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: var(--accent-text); word-break: break-all; }
+.repo-desc { font-size: 12px; color: var(--text-muted); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+.repo-topics { display: flex; flex-wrap: wrap; gap: var(--space-1); }
+.repo-footer { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-top: auto; padding-top: var(--space-2); border-top: 1px solid var(--border-light); }
+.repo-lang { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
+.repo-lang-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.repo-stat   { font-size: 12px; color: var(--text-muted); }
+.repo-pushed { font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); margin-left: auto; white-space: nowrap; }
+
+@media (max-width: 580px) { .repolist-grid { grid-template-columns: 1fr; } }

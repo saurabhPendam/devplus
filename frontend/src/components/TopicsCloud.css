@@ -1,0 +1,17 @@
+.topics-card { display: flex; flex-direction: column; gap: var(--space-3); }
+.topics-heading { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: var(--font-mono); }
+.topics-sub { font-size: 12px; color: var(--text-dim); margin-top: -4px; }
+.topics-cloud { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; }
+
+.topic-tag {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--accent-text);
+  background: var(--accent-light);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  transition: border-color 0.15s, opacity 0.15s;
+  text-decoration: none;
+}
+.topic-tag:hover { border-color: var(--accent); opacity: 1 !important; text-decoration: none; }

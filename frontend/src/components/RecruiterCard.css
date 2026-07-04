@@ -1,0 +1,23 @@
+.recruiter-card { background: #f8faff; border-color: #d0deff; }
+
+.recruiter-header { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-3); }
+.recruiter-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: var(--font-mono); }
+.recruiter-sub   { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+.recruiter-copy-btn {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+  background: var(--bg-card); border: 1px solid var(--border); padding: 5px 12px;
+  border-radius: var(--radius-sm); white-space: nowrap; flex-shrink: 0;
+  box-shadow: var(--shadow-xs); transition: border-color 0.15s, color 0.15s;
+}
+.recruiter-copy-btn:hover { border-color: var(--accent); color: var(--accent-text); }
+
+.recruiter-headline {
+  font-size: 14px; color: var(--text); line-height: 1.7;
+  border-left: 3px solid var(--accent); padding-left: var(--space-4);
+  margin-bottom: var(--space-4); font-style: italic;
+}
+
+.recruiter-bullets { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+.recruiter-bullet  { display: flex; align-items: flex-start; gap: var(--space-2); font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+.recruiter-bullet-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }

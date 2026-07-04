@@ -1,55 +1,128 @@
 /*
   server.js — DevPulse backend entry point.
 
-  Stack: Node.js + Express
-  
-  Why a separate backend?
-  - GitHub API has a rate limit of 60 req/hr for unauthenticated
-    requests, but 5000/hr with a personal access token.
-  - We CANNOT expose that token in React (client-side code is
-    readable by anyone). So the token lives only on the server.
-  - The same goes for the Anthropic API key (Day 5).
-  
-  This file sets up the Express server with middleware,
-  a health-check route, and a placeholder user route.
-  Real GitHub logic comes in Day 4.
+  Day 4 changes:
+  ──────────────────────────────────────────────────────────────
+  1. helmet() — adds 11 security HTTP headers in one line.
+     e.g. X-Content-Type-Options, X-Frame-Options, etc.
+     These protect against common web attacks at zero cost.
+
+  2. morgan('dev') — structured HTTP request logging.
+     Replaces our hand-rolled console.log middleware.
+     Format: "GET /api/github/torvalds 200 1842ms"
+     Much more useful than raw timestamps.
+
+  3. rateLimit middleware on /api routes — protects against
+     abuse without blocking legitimate users.
+
+  4. errorHandler at the very end — Express requires error
+     middleware to be registered AFTER all routes. The 4-arg
+     signature (err, req, res, next) is what marks it as an
+     error handler to Express.
+
+  5. /health endpoint now includes cache stats + GitHub token
+     status — useful for debugging on Railway after deploy.
+
+  6. Graceful shutdown — catches SIGTERM (what Railway sends
+     when stopping the container) and closes cleanly.
 */
 
-const express = require('express');
-const cors    = require('cors');
-require('dotenv').config();   // loads .env into process.env
+const express      = require('express');
+const cors         = require('cors');
+const morgan       = require('morgan');
+const helmet       = require('helmet');
+require('dotenv').config();
+
+const githubRoutes   = require('./routes/github');
+const { rateLimit }  = require('./middleware/rateLimit');
+const { errorHandler } = require('./middleware/errorHandler');
+const cache          = require('./services/cache');
 
 const app  = express();
 const PORT = process.env.PORT || 5000;
 
-// ── Middleware ──────────────────────────────────────────────
-// cors: allows our React app (localhost:3000) to call this server.
-//       Without this the browser blocks cross-origin requests.
+// ── Security headers ────────────────────────────────────────
+// helmet() sets headers like:
+//   X-Content-Type-Options: nosniff
+//   X-Frame-Options: SAMEORIGIN
+//   Strict-Transport-Security: max-age=...
+app.use(helmet());
+
+// ── CORS ────────────────────────────────────────────────────
+// Allow requests from the React frontend only.
+// In production CLIENT_URL will be the Vercel domain.
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:3000',
+  origin:      process.env.CLIENT_URL || 'http://localhost:3000',
+  methods:     ['GET', 'DELETE'],
+  allowedHeaders: ['Content-Type'],
 }));
 
-// express.json(): parses JSON request bodies automatically.
+// ── Body parsing ────────────────────────────────────────────
 app.use(express.json());
 
-// ── Routes ─────────────────────────────────────────────────
+// ── HTTP request logging ─────────────────────────────────────
+// 'dev' format: "GET /api/github/torvalds 200 1842 ms"
+// Skipped in test environments to keep test output clean
+if (process.env.NODE_ENV !== 'test') {
+  app.use(morgan('dev'));
+}
 
-// Health check — always useful to verify the server is alive.
-// Try: curl http://localhost:5000/health
+// ── Rate limiting (API routes only) ─────────────────────────
+// We only limit /api routes, not /health or static assets.
+app.use('/api', rateLimit);
+
+// ── Routes ──────────────────────────────────────────────────
+
+// Health check — includes cache + token status for debugging
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
-
-// Placeholder — GitHub API integration arrives in Day 4.
-app.get('/api/user/:username', (req, res) => {
-  const { username } = req.params;
   res.json({
-    message: `Day 4 will fetch real GitHub data for ${username}`,
-    username,
+    status:      'ok',
+    timestamp:   new Date().toISOString(),
+    githubToken: process.env.GITHUB_TOKEN ? 'loaded' : 'missing',
+    cache:       cache.stats(),
+    uptime:      `${Math.floor(process.uptime())}s`,
   });
 });
 
-// ── Start ───────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`✓  DevPulse backend → http://localhost:${PORT}`);
+app.use('/api/github', githubRoutes);
+
+// ── 404 for unknown routes ───────────────────────────────────
+app.use((_req, res) => {
+  res.status(404).json({ error: 'Route not found.' });
 });
+
+// ── Central error handler ────────────────────────────────────
+// MUST come after all routes — Express identifies error handlers
+// by their 4-argument signature: (err, req, res, next)
+app.use(errorHandler);
+
+// ── Start ────────────────────────────────────────────────────
+const server = app.listen(PORT, () => {
+  console.log('');
+  console.log('  ◈  DevPulse backend');
+  console.log(`  →  http://localhost:${PORT}`);
+  console.log(`  →  GitHub token : ${process.env.GITHUB_TOKEN ? '✓ loaded (5,000 req/hr)' : '✗ missing (60 req/hr)'}`);
+  console.log(`  →  Cache        : in-memory, 5 min TTL`);
+  console.log(`  →  Environment  : ${process.env.NODE_ENV || 'development'}`);
+  console.log('');
+});
+
+// ── Graceful shutdown ────────────────────────────────────────
+// Railway (and Docker) send SIGTERM when shutting down.
+// We close the HTTP server gracefully before exiting,
+// so in-flight requests can finish rather than being cut off.
+process.on('SIGTERM', () => {
+  console.log('\n[shutdown] SIGTERM received — closing server...');
+  server.close(() => {
+    console.log('[shutdown] Done.');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  // Ctrl+C in development
+  console.log('\n[shutdown] Stopping dev server...');
+  process.exit(0);
+});
+
+module.exports = app; // exported for testing

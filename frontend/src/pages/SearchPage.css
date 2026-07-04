@@ -1,37 +1,39 @@
-/* =============================================
-   SearchPage.css
-   Styles specific to the landing/search page.
-   Global tokens come from index.css.
-   ============================================= */
+/* SearchPage.css — light theme */
 
 .search-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: var(--bg);
 }
 
-/* ── Nav ── */
+/* Nav */
 .search-nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding-top: var(--space-5);
   padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
 }
 
 .nav-logo {
   font-family: var(--font-mono);
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.nav-logo-symbol {
-  color: var(--accent);
-  font-size: 18px;
+.nav-logo-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  display: inline-block;
 }
 
 .nav-link {
@@ -39,48 +41,43 @@
   color: var(--text-muted);
   transition: color 0.15s;
 }
-.nav-link:hover {
-  color: var(--accent-light);
-  text-decoration: none;
-}
+.nav-link:hover { color: var(--text); text-decoration: none; }
 
-/* ── Hero ── */
+/* Hero */
 .search-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--space-8) var(--space-5) var(--space-7);
+  padding: 72px var(--space-5) var(--space-8);
   gap: var(--space-5);
-  max-width: 620px;
+  max-width: 580px;
   margin: 0 auto;
   width: 100%;
 }
 
-.hero-eyebrow {
-  margin-bottom: -8px;
-}
+.hero-eyebrow { margin-bottom: -4px; }
 
 .hero-heading {
-  font-size: clamp(32px, 6vw, 52px);
+  font-size: clamp(28px, 5.5vw, 44px);
   font-weight: 700;
-  line-height: 1.12;
+  line-height: 1.15;
   letter-spacing: -0.03em;
   color: var(--text);
 }
 
 .hero-body {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--text-muted);
-  line-height: 1.7;
-  max-width: 440px;
+  line-height: 1.75;
+  max-width: 400px;
 }
 
-/* ── Terminal form — the signature element ── */
+/* Search form */
 .terminal-form {
   width: 100%;
-  max-width: 500px;
+  max-width: 460px;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -88,59 +85,34 @@
 }
 
 .terminal-box {
-  background: #0e0c14;          /* extra dark for contrast */
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 16px 20px;
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   font-family: var(--font-mono);
-  font-size: 14px;
+  font-size: 13px;
   text-align: left;
+  box-shadow: var(--shadow-xs);
   transition: border-color 0.2s, box-shadow 0.2s;
-  cursor: text;
 }
 
 .terminal-box:focus-within {
   border-color: var(--border-focus);
-  box-shadow: 0 0 0 3px var(--accent-glow);
+  box-shadow: 0 0 0 3px rgba(59,110,248,0.10);
 }
 
-.terminal-box.has-error {
-  border-color: var(--red);
-}
+.terminal-box.has-error { border-color: var(--red); }
 
-.terminal-line {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.terminal-line { display: flex; align-items: center; gap: 10px; }
+.terminal-line--dim { opacity: 0.35; }
 
-.terminal-line--dim {
-  opacity: 0.35;
-}
+.t-prompt { color: var(--accent); font-weight: 700; user-select: none; flex-shrink: 0; }
+.t-cmd    { color: var(--text-muted); }
+.t-flag   { color: var(--green); flex-shrink: 0; }
 
-/* The $ prompt symbol */
-.t-prompt {
-  color: var(--accent-light);
-  font-weight: 600;
-  user-select: none;
-  flex-shrink: 0;
-}
-
-/* devpulse analyze — greyed context */
-.t-cmd {
-  color: var(--text-muted);
-}
-
-/* --user flag */
-.t-flag {
-  color: var(--green);
-  flex-shrink: 0;
-}
-
-/* The actual text input, invisible chrome */
 .t-input {
   flex: 1;
   background: transparent;
@@ -148,68 +120,49 @@
   outline: none;
   color: var(--text);
   font-family: var(--font-mono);
-  font-size: 14px;
-  caret-color: var(--accent-light);
+  font-size: 13px;
+  caret-color: var(--accent);
   min-width: 0;
 }
+.t-input::placeholder { color: var(--text-dim); }
 
-.t-input::placeholder {
-  color: var(--text-dim);
-}
-
-/* Blinking block cursor (CSS-only) */
 .t-caret {
   display: inline-block;
-  width: 8px;
-  height: 16px;
-  background: var(--accent-light);
+  width: 7px;
+  height: 14px;
+  background: var(--accent);
   border-radius: 1px;
   transition: opacity 0.05s;
 }
 
 .terminal-error {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--red);
   text-align: left;
-  padding-left: 4px;
+  padding-left: 2px;
 }
 
-/* Run analysis button */
 .run-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   background: var(--accent);
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  padding: 13px 24px;
+  padding: 11px 22px;
   border-radius: var(--radius-sm);
-  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
   letter-spacing: 0.01em;
 }
+.run-btn:hover { background: var(--accent-hover); box-shadow: 0 4px 14px rgba(59,110,248,0.25); }
+.run-btn:active { transform: scale(0.98); }
+.run-btn-arrow { font-family: var(--font-mono); transition: transform 0.2s; }
+.run-btn:hover .run-btn-arrow { transform: translateX(3px); }
 
-.run-btn:hover {
-  background: var(--accent-light);
-  box-shadow: var(--shadow-accent);
-}
-
-.run-btn:active {
-  transform: scale(0.97);
-}
-
-.run-btn-arrow {
-  font-size: 18px;
-  transition: transform 0.2s;
-}
-
-.run-btn:hover .run-btn-arrow {
-  transform: translateX(4px);
-}
-
-/* ── Example chips ── */
+/* Example chips */
 .examples-row {
   display: flex;
   align-items: center;
@@ -219,103 +172,85 @@
 }
 
 .examples-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-dim);
   font-family: var(--font-mono);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
 }
 
-.examples-chips {
-  display: flex;
-  gap: var(--space-2);
-  flex-wrap: wrap;
-  justify-content: center;
-}
+.examples-chips { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
 
 .chip {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
-  background: var(--bg-elevated);
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  padding: 4px 12px;
+  padding: 4px 11px;
   border-radius: 20px;
+  box-shadow: var(--shadow-xs);
   transition: border-color 0.15s, color 0.15s;
 }
+.chip:hover { border-color: var(--accent); color: var(--accent-text); }
 
-.chip:hover {
-  border-color: var(--accent);
-  color: var(--accent-light);
-}
-
-/* ── Features section ── */
+/* Features section */
 .features-section {
   padding-top: var(--space-7);
   padding-bottom: var(--space-7);
   border-top: 1px solid var(--border);
+  background: var(--bg-card);
 }
 
 .features-label {
   font-family: var(--font-mono);
   font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.10em;
   color: var(--text-dim);
   margin-bottom: var(--space-5);
 }
 
-.features-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-5);
-}
+.features-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-5); }
 
-.feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--space-4);
-}
+.feature-item { display: flex; align-items: flex-start; gap: var(--space-4); }
 
-.feature-icon {
+.feature-num {
   font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
   color: var(--accent);
-  font-size: 16px;
-  margin-top: 2px;
+  background: var(--accent-light);
+  border-radius: 4px;
+  padding: 2px 7px;
   flex-shrink: 0;
+  margin-top: 1px;
 }
 
 .feature-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--text);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .feature-desc {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
   line-height: 1.6;
 }
 
-/* ── Footer ── */
+/* Footer */
 .search-footer {
   padding: var(--space-5);
   text-align: center;
   border-top: 1px solid var(--border);
+  background: var(--bg-card);
   font-size: 12px;
   font-family: var(--font-mono);
   color: var(--text-dim);
 }
 
-/* ── Responsive ── */
 @media (max-width: 600px) {
-  .search-main {
-    padding-top: var(--space-7);
-    gap: var(--space-4);
-  }
-  .terminal-box {
-    font-size: 13px;
-  }
+  .search-main { padding-top: var(--space-7); gap: var(--space-4); }
+  .terminal-box { font-size: 12px; }
 }

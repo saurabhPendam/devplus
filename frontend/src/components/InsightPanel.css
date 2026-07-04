@@ -1,0 +1,29 @@
+.insight-panel { display: flex; flex-direction: column; gap: var(--space-4); }
+.insight-header { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.insight-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.07em; font-family: var(--font-mono); }
+.insight-subtitle { font-size: 12px; color: var(--text-dim); }
+
+.insight-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+
+.insight-item {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  padding: 12px var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  background: var(--bg-card);
+}
+
+.insight-item--positive { border-left-color: var(--green); background: var(--green-bg); border-color: var(--green-border); border-left-color: var(--green); }
+.insight-item--neutral  { border-left-color: var(--accent); }
+.insight-item--warn     { border-left-color: var(--orange); background: var(--orange-bg); border-color: var(--orange-border); border-left-color: var(--orange); }
+
+.insight-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 6px;
+}
+.insight-item--positive .insight-dot { background: var(--green); }
+.insight-item--neutral  .insight-dot { background: var(--accent); }
+.insight-item--warn     .insight-dot { background: var(--orange); }
+
+.insight-text { font-size: 13px; color: var(--text-muted); line-height: 1.65; }

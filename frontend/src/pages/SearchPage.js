@@ -1,132 +1,88 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './SearchPage.css';
 
-/*
-  SearchPage — the landing page.
-
-  What it does:
-  1. Shows a "terminal prompt" search — the signature design element.
-     Developers instantly recognise the $ prompt style.
-  2. Validates the input before handing off to App.js
-  3. Shows example usernames as quick-launch chips
-  4. Three feature cards explain what the analyzer does
-
-  Props:
-    onSearch(username: string) — called when form submits successfully
-*/
 export default function SearchPage({ onSearch }) {
-  const [input, setInput]       = useState('');
-  const [error, setError]       = useState('');
-  const [blinkOn, setBlinkOn]   = useState(true);  // cursor blink state
-  const inputRef                = useRef(null);
+  const [input,   setInput]   = useState('');
+  const [error,   setError]   = useState('');
+  const [blinkOn, setBlinkOn] = useState(true);
+  const inputRef              = useRef(null);
 
-  // Blinking cursor effect — purely cosmetic, makes it feel like a real terminal
   useEffect(() => {
-    const timer = setInterval(() => setBlinkOn(b => !b), 530);
-    return () => clearInterval(timer);
+    const t = setInterval(() => setBlinkOn(b => !b), 530);
+    return () => clearInterval(t);
   }, []);
 
-  // Auto-focus the input so users can type immediately
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  useEffect(() => { inputRef.current?.focus(); }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const trimmed = input.trim().toLowerCase();
-
-    // Validation
-    if (!trimmed) {
-      setError('Type a GitHub username first.');
-      return;
+    const val = input.trim().toLowerCase();
+    if (!val) { setError('Enter a GitHub username to continue.'); return; }
+    if (val.length > 39) { setError('GitHub usernames are max 39 characters.'); return; }
+    if (!/^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(val)) {
+      setError('Only letters, numbers, and hyphens are allowed.'); return;
     }
-    if (trimmed.length > 39) {
-      setError('GitHub usernames can\'t be longer than 39 characters.');
-      return;
-    }
-    if (!/^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(trimmed)) {
-      setError('Invalid username — only letters, numbers, and hyphens.');
-      return;
-    }
-
     setError('');
-    onSearch(trimmed);
-  };
-
-  const handleExample = (name) => {
-    setInput(name);
-    setError('');
-    inputRef.current?.focus();
+    onSearch(val);
   };
 
   const examples = [
-    { name: 'torvalds',      label: 'Linus Torvalds' },
-    { name: 'gaearon',       label: 'Dan Abramov'    },
-    { name: 'sindresorhus',  label: 'Sindre Sorhus'  },
-    { name: 'yyx990803',     label: 'Evan You'       },
+    { name: 'torvalds',     label: 'Linus Torvalds' },
+    { name: 'gaearon',      label: 'Dan Abramov'    },
+    { name: 'sindresorhus', label: 'Sindre Sorhus'  },
+    { name: 'yyx990803',    label: 'Evan You'        },
   ];
 
   const features = [
     {
-      icon: '▸',
+      num: '01',
+      title: 'Developer score',
+      desc: 'A 0 to 100 score across activity, impact, language diversity, and consistency.',
+    },
+    {
+      num: '02',
       title: 'Language breakdown',
-      desc:  'See which languages dominate your repos and how they\'ve shifted over time.',
+      desc: 'See which languages dominate your repositories with byte-level accuracy.',
     },
     {
-      icon: '▸',
-      title: 'AI-written analysis',
-      desc:  'Claude reads your commit history and tells you what kind of developer you actually are.',
-    },
-    {
-      icon: '▸',
-      title: 'Shareable score',
-      desc:  'Get a link you can drop in your resume or Twitter bio.',
+      num: '03',
+      title: 'Profile insights',
+      desc: 'Data-driven observations to help you stand out to recruiters and collaborators.',
     },
   ];
 
   return (
     <div className="search-page">
-      {/* ── Top nav strip ── */}
       <nav className="search-nav container">
         <span className="nav-logo">
-          <span className="nav-logo-symbol">◈</span> devpulse
+          <span className="nav-logo-dot" />
+          devpulse
         </span>
-        <a
-          className="nav-link"
-          href="https://github.com"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub ↗
+        <a className="nav-link" href="https://github.com" target="_blank" rel="noreferrer">
+          GitHub
         </a>
       </nav>
 
-      {/* ── Hero ── */}
       <main className="search-main">
         <div className="hero-eyebrow">
-          <span className="badge badge-violet">v0.1 — beta</span>
+          <span className="badge badge-violet">GitHub Profile Analyzer</span>
         </div>
 
         <h1 className="hero-heading">
-          What does your<br />
-          GitHub say about you?
+          What does your GitHub profile say about you?
         </h1>
 
         <p className="hero-body">
-          Paste any GitHub username. Get a brutally honest breakdown
-          of skills, consistency, and where to level up — powered by AI.
+          Enter any GitHub username and get a detailed breakdown of
+          skills, activity, and how your profile looks to recruiters.
         </p>
 
-        {/* ── Terminal prompt search ── SIGNATURE ELEMENT ── */}
         <form className="terminal-form" onSubmit={handleSubmit} noValidate>
           <div className={`terminal-box ${error ? 'has-error' : ''}`}>
-            {/* Line 1 — static context line */}
             <div className="terminal-line terminal-line--dim">
               <span className="t-prompt">~</span>
               <span className="t-cmd">devpulse analyze</span>
             </div>
-
-            {/* Line 2 — active input */}
             <div className="terminal-line">
               <span className="t-prompt">$</span>
               <span className="t-flag">--user</span>
@@ -141,38 +97,28 @@ export default function SearchPage({ onSearch }) {
                 spellCheck={false}
                 aria-label="GitHub username"
               />
-              {/* Blinking caret — shows only when input is empty */}
               {!input && (
-                <span
-                  className="t-caret"
-                  style={{ opacity: blinkOn ? 1 : 0 }}
-                />
+                <span className="t-caret" style={{ opacity: blinkOn ? 1 : 0 }} />
               )}
             </div>
           </div>
 
-          {error && (
-            <p className="terminal-error" role="alert">
-              ✗ {error}
-            </p>
-          )}
+          {error && <p className="terminal-error" role="alert">{error}</p>}
 
           <button className="run-btn" type="submit">
-            Run analysis
-            <span className="run-btn-arrow">→</span>
+            Analyze profile <span className="run-btn-arrow">-&gt;</span>
           </button>
         </form>
 
-        {/* ── Example chips ── */}
         <div className="examples-row">
-          <span className="examples-label">Try:</span>
+          <span className="examples-label">Examples:</span>
           <div className="examples-chips">
             {examples.map(ex => (
               <button
                 key={ex.name}
                 className="chip"
                 type="button"
-                onClick={() => handleExample(ex.name)}
+                onClick={() => { setInput(ex.name); setError(''); inputRef.current?.focus(); }}
                 title={ex.label}
               >
                 {ex.name}
@@ -182,13 +128,12 @@ export default function SearchPage({ onSearch }) {
         </div>
       </main>
 
-      {/* ── Feature list ── */}
       <section className="features-section container">
-        <p className="features-label">what you get</p>
+        <p className="features-label">What you get</p>
         <ul className="features-list">
           {features.map(f => (
-            <li key={f.title} className="feature-item">
-              <span className="feature-icon">{f.icon}</span>
+            <li key={f.num} className="feature-item">
+              <span className="feature-num">{f.num}</span>
               <div>
                 <h3 className="feature-title">{f.title}</h3>
                 <p className="feature-desc">{f.desc}</p>
@@ -198,9 +143,8 @@ export default function SearchPage({ onSearch }) {
         </ul>
       </section>
 
-      {/* ── Footer ── */}
       <footer className="search-footer">
-        <p>Built with React · GitHub API · Claude AI</p>
+        <p>Built with React, Node.js and the GitHub REST API</p>
       </footer>
     </div>
   );

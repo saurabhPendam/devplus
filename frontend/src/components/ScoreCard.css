@@ -1,0 +1,31 @@
+.score-card { display: flex; align-items: stretch; padding: 0; overflow: hidden; }
+
+.score-left {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 4px; padding: var(--space-5) var(--space-6);
+  background: var(--bg-subtle);
+  border-right: 1px solid var(--border);
+  flex-shrink: 0; min-width: 120px;
+}
+
+.score-grade { font-family: var(--font-mono); font-size: 52px; font-weight: 800; line-height: 1; letter-spacing: -2px; }
+.score-total { display: flex; align-items: baseline; gap: 2px; }
+.score-number { font-family: var(--font-mono); font-size: 18px; font-weight: 700; color: var(--text); }
+.score-denom  { font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); }
+.score-label  { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+.score-dimensions { flex: 1; padding: var(--space-4) var(--space-5); display: flex; flex-direction: column; gap: var(--space-3); }
+.score-dimensions-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); font-family: var(--font-mono); margin-bottom: 2px; }
+.score-dim { display: flex; flex-direction: column; gap: 4px; }
+.score-dim-header { display: flex; justify-content: space-between; align-items: baseline; }
+.score-dim-name { font-size: 13px; color: var(--text-muted); font-weight: 500; }
+.score-dim-pts  { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--text); }
+.score-dim-max  { color: var(--text-dim); font-size: 11px; }
+.score-dim-track { height: 4px; background: var(--bg-elevated); border-radius: 2px; overflow: hidden; }
+.score-dim-fill  { height: 100%; border-radius: 2px; transition: width 0.8s cubic-bezier(0.16,1,0.3,1); }
+
+@media (max-width: 560px) {
+  .score-card { flex-direction: column; }
+  .score-left { flex-direction: row; padding: var(--space-4); gap: var(--space-4); justify-content: flex-start; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
+  .score-grade { font-size: 40px; }
+}
