@@ -1,0 +1,312 @@
+/* ProfileShareCard.css */
+
+.psc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Header row */
+.psc-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.psc-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.psc-sub {
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+}
+
+.psc-download-btn {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.psc-download-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  box-shadow: 0 4px 12px rgba(59, 110, 248, 0.25);
+}
+.psc-download-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* ── Card preview ── */
+.psc-preview {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  /* Fixed aspect ratio matching the SVG dimensions (640 × 320) */
+  aspect-ratio: 2 / 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Left colour accent bar */
+.psc-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  border-radius: 2px 0 0 2px;
+}
+
+/* Body: identity left, metrics right */
+.psc-body {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  padding: 20px 20px 12px 24px;
+  gap: 0;
+}
+
+/* Identity section */
+.psc-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.psc-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.psc-identity-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.psc-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.psc-login {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.psc-bio {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.psc-location {
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: 2px;
+  font-family: var(--font-mono);
+}
+
+/* Vertical divider */
+.psc-divider {
+  width: 1px;
+  background: var(--border-light);
+  margin: 0 20px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+
+/* Metrics section */
+.psc-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+  width: 200px;
+}
+
+/* Grade row */
+.psc-grade-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.psc-grade {
+  font-family: var(--font-mono);
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.psc-grade-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.psc-score-num {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.psc-score-denom {
+  font-size: 11px;
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+.psc-score-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Language dots */
+.psc-langs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.psc-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.psc-lang-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.psc-lang-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* Stats row */
+.psc-stats {
+  display: flex;
+  gap: 16px;
+}
+
+.psc-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.psc-stat-val {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+.psc-stat-label {
+  font-size: 9px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Card footer */
+.psc-footer {
+  padding: 8px 24px;
+  border-top: 1px solid var(--border-light);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  background: var(--bg-subtle);
+}
+
+/* README hint row */
+.psc-hint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  flex-wrap: wrap;
+}
+
+.psc-hint-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.psc-hint-code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-text);
+  background: var(--accent-light);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .psc-preview     { aspect-ratio: unset; min-height: 220px; }
+  .psc-body        { flex-direction: column; gap: var(--space-3); }
+  .psc-divider     { width: 100%; height: 1px; margin: 0; }
+  .psc-metrics     { width: 100%; flex-direction: row; flex-wrap: wrap; gap: var(--space-4); }
+  .psc-grade-row   { flex-shrink: 0; }
+  .psc-stats       { gap: var(--space-3); }
+  .psc-hint        { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .psc-hint-code   { white-space: normal; word-break: break-all; }
+}

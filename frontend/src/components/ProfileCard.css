@@ -35,3 +35,9 @@
   .pcard-follow   { justify-content: center; }
   .pcard-meta     { justify-content: center; }
 }
+
+/* Day 7 — tighter mobile */
+@media (max-width: 400px) {
+  .pcard-avatar { width: 64px; height: 64px; }
+  .pcard-name   { font-size: 18px; }
+}

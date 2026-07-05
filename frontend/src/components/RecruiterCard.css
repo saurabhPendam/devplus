@@ -21,3 +21,9 @@
 .recruiter-bullets { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
 .recruiter-bullet  { display: flex; align-items: flex-start; gap: var(--space-2); font-size: 13px; color: var(--text-muted); line-height: 1.65; }
 .recruiter-bullet-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 7px; }
+
+/* Day 7 */
+@media (max-width: 480px) {
+  .recruiter-header  { flex-direction: column; gap: var(--space-2); }
+  .recruiter-copy-btn { align-self: flex-start; }
+}

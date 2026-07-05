@@ -1,0 +1,52 @@
+/* ScrollToTop.css */
+
+.scroll-top-btn {
+  position: fixed;
+  bottom: var(--space-6);
+  right: var(--space-5);
+  z-index: 90;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-md);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Entrance animation */
+  animation: scrollBtnIn 0.2s ease forwards;
+  transition: border-color 0.15s, color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.scroll-top-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent-text);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md), 0 0 0 3px var(--accent-light);
+}
+
+.scroll-top-btn:active {
+  transform: translateY(0);
+}
+
+@keyframes scrollBtnIn {
+  from { opacity: 0; transform: scale(0.8) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
+}
+
+/* Push up when toast stack is visible */
+@media (max-width: 480px) {
+  .scroll-top-btn {
+    bottom: var(--space-5);
+    right: var(--space-4);
+  }
+}

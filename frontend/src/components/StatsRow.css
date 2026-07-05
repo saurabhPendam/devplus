@@ -12,3 +12,9 @@
 .stat-sub   { font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); }
 
 @media (max-width: 520px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
+
+/* Day 7 */
+@media (max-width: 380px) {
+  .stat-value { font-size: 22px; }
+  .stat-card  { padding: var(--space-3) var(--space-2); }
+}

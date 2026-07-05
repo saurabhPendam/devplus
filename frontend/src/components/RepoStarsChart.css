@@ -142,3 +142,9 @@
   }
   .rsc-lang-dot { display: none; }
 }
+
+/* Day 7 */
+@media (max-width: 400px) {
+  .rsc-item { grid-template-columns: 20px 1fr 60px 32px; gap: var(--space-2); }
+  .rsc-total-badge { display: none; }
+}

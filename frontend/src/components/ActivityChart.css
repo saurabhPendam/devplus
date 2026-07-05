@@ -209,3 +209,9 @@
 @media (max-width: 500px) {
   .ac-col:nth-child(even) .ac-month { visibility: hidden; }
 }
+
+/* Day 7 */
+@media (max-width: 400px) {
+  .ac-chart  { height: 130px; }
+  .ac-yaxis  { display: none; } /* hide y-axis numbers on tiny screens */
+}

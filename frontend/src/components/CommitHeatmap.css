@@ -153,3 +153,10 @@
 
 .hm-legend-label { font-family: var(--font-mono); font-size: 10px; color: var(--text-dim); }
 .hm-legend-cell  { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* Day 7 — make heatmap scrollable on very small screens */
+@media (max-width: 400px) {
+  .hm-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .hm-stats { gap: var(--space-3); }
+  .hm-stat-value { font-size: 16px; }
+}

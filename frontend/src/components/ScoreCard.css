@@ -29,3 +29,10 @@
   .score-left { flex-direction: row; padding: var(--space-4); gap: var(--space-4); justify-content: flex-start; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
   .score-grade { font-size: 40px; }
 }
+
+/* Day 7 */
+@media (max-width: 400px) {
+  .score-left    { min-width: unset; padding: var(--space-4); }
+  .score-grade   { font-size: 36px; }
+  .score-number  { font-size: 16px; }
+}

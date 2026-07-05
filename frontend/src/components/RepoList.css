@@ -27,3 +27,9 @@
 .repo-pushed { font-size: 11px; color: var(--text-dim); font-family: var(--font-mono); margin-left: auto; white-space: nowrap; }
 
 @media (max-width: 580px) { .repolist-grid { grid-template-columns: 1fr; } }
+
+/* Day 7 */
+@media (max-width: 400px) {
+  .repolist-tabs { display: none; } /* too cramped — default to top starred */
+  .repolist-grid { grid-template-columns: 1fr; }
+}

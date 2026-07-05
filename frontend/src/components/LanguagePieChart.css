@@ -110,3 +110,8 @@
     align-self: center;
   }
 }
+
+/* Day 7 — stack on mobile */
+@media (max-width: 400px) {
+  .lpc-chart-wrap { width: 120px; height: 120px; }
+}

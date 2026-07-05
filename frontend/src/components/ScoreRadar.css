@@ -158,3 +158,9 @@
   }
   .radar-stats { width: 100%; }
 }
+
+/* Day 7 */
+@media (max-width: 400px) {
+  .radar-svg  { width: 160px; height: 160px; }
+  .radar-grade { font-size: 28px; }
+}
