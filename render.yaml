@@ -1,0 +1,23 @@
+# render.yaml
+# Render reads this file from your repo root automatically.
+# It defines your backend service so you don't have to click
+# through the dashboard manually.
+#
+# Docs: https://render.com/docs/infrastructure-as-code
+
+services:
+  - type: web
+    name: devpulse-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: node server.js
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GITHUB_TOKEN
+        sync: false        # you fill this in on the Render dashboard
+      - key: CLIENT_URL
+        sync: false        # your Vercel URL — fill in after Vercel deploy
+    autoDeploy: true       # redeploy on every git push to main
