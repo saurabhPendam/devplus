@@ -1,25 +1,25 @@
-# ── Node modules (never commit these — they're huge) ──
+# ── Dependencies ──────────────────────────────────────────────
 node_modules/
 frontend/node_modules/
 backend/node_modules/
 
-# ── Secret keys (CRITICAL — never commit .env) ──
+# ── Secrets — NEVER commit these ─────────────────────────────
 .env
 backend/.env
-frontend/.env
 frontend/.env.local
 
-# ── Build output ──
+# .env.production and .env.development are SAFE to commit
+# (they contain no secrets, just the Railway URL)
+
+# ── Build output ──────────────────────────────────────────────
 frontend/build/
 
-# ── OS junk ──
+# ── OS / editor junk ──────────────────────────────────────────
 .DS_Store
 Thumbs.db
-
-# ── Editor settings ──
 .vscode/settings.json
 .idea/
 
-# ── Logs ──
+# ── Logs ──────────────────────────────────────────────────────
 *.log
 npm-debug.log*

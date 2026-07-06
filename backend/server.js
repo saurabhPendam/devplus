@@ -49,10 +49,25 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 
 // ── CORS ────────────────────────────────────────────────────
-// Allow requests from the React frontend only.
-// In production CLIENT_URL will be the Vercel domain.
+// In development: allow localhost:3000
+// In production: allow the Vercel frontend URL (set in CLIENT_URL env var)
+// We also allow any *.vercel.app subdomain for preview deployments.
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:3000',
+  'http://localhost:3001',
+].filter(Boolean);
+
 app.use(cors({
-  origin:      process.env.CLIENT_URL || 'http://localhost:3000',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman, mobile apps)
+    if (!origin) return callback(null, true);
+    // Allow any vercel.app subdomain (covers preview deployments)
+    if (origin.endsWith('.vercel.app')) return callback(null, true);
+    // Allow explicitly listed origins
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
   methods:     ['GET', 'DELETE'],
   allowedHeaders: ['Content-Type'],
 }));
@@ -61,10 +76,10 @@ app.use(cors({
 app.use(express.json());
 
 // ── HTTP request logging ─────────────────────────────────────
-// 'dev' format: "GET /api/github/torvalds 200 1842 ms"
-// Skipped in test environments to keep test output clean
+// 'combined' in production gives IP + user-agent — useful for Railway logs
+// 'dev' locally gives coloured one-line output
 if (process.env.NODE_ENV !== 'test') {
-  app.use(morgan('dev'));
+  app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 }
 
 // ── Rate limiting (API routes only) ─────────────────────────
